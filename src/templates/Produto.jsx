@@ -1,6 +1,38 @@
-import { useState } from "react";
-export default function Produto(props){
-    const [quantidade, setQuantidade] = useState(1);
+import React, { useState } from 'react';
+import BarraSuperior from '../barras/BarraSuperior';
+import ListaCompras from './ListaCompras';
+
+export default function Produto(props) {
+  const [quantidade, setQuantidade] = useState(1);
+
+
+  const [listaCompras, setListaCompras] = useState([]);
+
+  const adicionarItemListaCompras = (item) => {
+    setListaCompras([...listaCompras, item]);
+  };
+
+  const adicionarAoCarrinho = () => {
+    const item = {
+      produto: props.produto,
+      quantidade: quantidade,
+    };
+
+    const listaCompras = Array.isArray(props.listaCompras) ? props.listaCompras : [];
+
+    
+    let produtoNoCarrinho = false;
+    for (const carrinhoItem of listaCompras) {
+      if (carrinhoItem.produto.id === props.produto.id) {
+        produtoNoCarrinho = true;
+        break;
+      }
+    }
+
+    if (!produtoNoCarrinho) {
+      props.adicionarItemListaCompras(item);
+    }
+  };
     return(
         <div style={{
             width: '200px',
@@ -34,7 +66,7 @@ export default function Produto(props){
             <div style={{
                 
             }}id="opinioes-produoto">
-                <span>{((props.produto ? props.produto.rating.rate : 0) * 20) || 0}% gostaram</span>
+                <span>{((props.produto && props.produto.rating && props.produto.rating.rate) || 0) * 20}% gostaram</span>
             </div>
             <div style={{
                     display: 'flex',
@@ -64,19 +96,24 @@ export default function Produto(props){
                     min={1}/>
             </div>
             <div id='botao-comprar'>
-                <button 
-                    style={{
-                        backgroundColor: 'rgb(255,60,60)',
-                        color: 'white',
-                        border: '0px',
-                        borderRadius:'10px',
-                        height: '40px',
-                        width: '120px',
-                    }}
-                    type='button'>
-                        Comprar
-                </button>
-            </div>
+        <button
+          style={{
+            backgroundColor: 'rgb(255,60,60)',
+            color: 'white',
+            border: '0px',
+            borderRadius: '10px',
+            height: '40px',
+            width: '120px',
+          }}
+          
+          onClick={adicionarAoCarrinho}
+          
+        >
+          Comprar
+        </button>
+        
+      </div>
         </div>
+        
     )
 }

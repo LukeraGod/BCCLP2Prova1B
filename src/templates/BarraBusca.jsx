@@ -1,4 +1,6 @@
+import React from 'react';
 import Carrinho from './Carrinho';
+
 export default function BarraBusca(props) {
     return (
         <>
@@ -58,7 +60,7 @@ export default function BarraBusca(props) {
                     >Buscar</button>
                 </div>
                 <div>
-                    <Carrinho />
+                    <Carrinho/>
                 </div>
             </div>
             <div style={{
